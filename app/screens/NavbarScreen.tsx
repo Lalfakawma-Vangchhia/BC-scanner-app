@@ -573,84 +573,6 @@ const NavbarScreen: React.FC = () => {
     );
   }, []);
 
-  const NavigationBar = () => (
-    <View style={styles.navigationBar}>
-      <View style={styles.navigationBarContent}>
-        <TouchableOpacity
-          style={[
-            styles.navigationButton,
-            activeTab === 'home' && styles.activeNavigationButton
-          ]}
-          onPress={() => setActiveTab('home')}
-        >
-          <Ionicons
-            name={activeTab === 'home' ? 'home' : 'home-outline'}
-            size={28}
-            color={activeTab === 'home' ? '#0097e6' : '#fff'}
-            style={activeTab === 'home' ? { transform: [{ translateY: -22 }], marginBottom: 8 } : { marginBottom: 8 }}
-          />
-          <Text style={[
-            styles.navigationButtonText,
-            { color: activeTab === 'home' ? '#0097e6' : '#fff' },
-            activeTab === 'home' && styles.activeNavigationButtonText
-          ]}>
-            Home
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={[
-            styles.navigationButton,
-            activeTab === 'add' && styles.activeNavigationButton
-          ]}
-          onPress={() => {
-            setActiveTab('add');
-            router.push('/screens/AddManually' as any);
-          }}
-        >
-          <Ionicons 
-            name="add-outline" 
-            size={28} 
-            color={activeTab === 'add' ? '#0097e6' : '#fff'}
-            style={activeTab === 'add' ? { transform: [{ translateY: -22 }], marginBottom: 8 } : { marginBottom: 8 }}
-          />
-          <Text style={[
-            styles.navigationButtonText,
-            { color: activeTab === 'add' ? '#0097e6' : '#fff' },
-            activeTab === 'add' && styles.activeNavigationButtonText
-          ]}>
-            Add
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.navigationButton,
-            activeTab === 'settings' && styles.activeNavigationButton
-          ]}
-          onPress={() => {
-            setActiveTab('settings');
-            router.push('/settings');
-          }}
-        >
-          <Ionicons
-            name={activeTab === 'settings' ? 'settings' : 'settings-outline'}
-            size={28}
-            color={activeTab === 'settings' ? '#0097e6' : '#fff'}
-            style={activeTab === 'settings' ? { transform: [{ translateY: -22 }], marginBottom: 8 } : { marginBottom: 8 }}
-          />
-          <Text style={[
-            styles.navigationButtonText,
-            { color: activeTab === 'settings' ? '#0097e6' : '#fff' },
-            activeTab === 'settings' && styles.activeNavigationButtonText
-          ]}>
-            Settings
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#f8f9fa" translucent />
@@ -680,8 +602,7 @@ const NavbarScreen: React.FC = () => {
         </View>
         <FloatingActionButton />
         <PopupMenu />
-        <NavigationBar />
-        <HamburgerScreen 
+        <HamburgerScreen
           isVisible={isHamburgerVisible}
           onClose={() => setIsHamburgerVisible(false)}
         />
@@ -697,6 +618,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#f8f9fa',
+    paddingBottom: 90, // Ensure content is not hidden by the navbar
   },
   topBar: {
     padding: 16,
@@ -722,6 +644,11 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: '#1F2937',
+    ...Platform.select({
+      web: {
+        outlineWidth: 0,
+      },
+    }),
   },
   filterBar: {
     flexDirection: 'row',
@@ -771,7 +698,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     right: 16,
-    bottom: 150,
+    bottom: 230,
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -787,7 +714,7 @@ const styles = StyleSheet.create({
   popupMenu: {
     position: 'absolute',
     right: 16,
-    bottom: 220,
+    bottom: 300,
     zIndex: 50,
   },
   popupMenuItem: {
@@ -800,40 +727,6 @@ const styles = StyleSheet.create({
   },
   popupMenuItemText: {
     color: '#6B7280',
-  },
-  navigationBar: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 80,
-    backgroundColor: '#8AC041',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  navigationBarContent: {
-    flex: 1,
-  },
-  navigationButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  activeNavigationButton: {
-    backgroundColor: '#0097e6',
-  },
-  navigationButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  activeNavigationButtonText: {
-    color: '#fff',
-    fontWeight: '600',
   },
   inputContainer: {
     padding: 16,
@@ -850,6 +743,11 @@ const styles = StyleSheet.create({
   input: {
     color: '#1F2937',
     paddingBottom: 8,
+    ...Platform.select({
+      web: {
+        outlineWidth: 0,
+      },
+    }),
   },
   helperText: {
     color: '#6B7280',
@@ -861,6 +759,12 @@ const styles = StyleSheet.create({
   },
   selectedPerson: {
     backgroundColor: '#E6F7F5',
+  },
+  personItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
   },
   personInfo: {
     marginLeft: 12,
